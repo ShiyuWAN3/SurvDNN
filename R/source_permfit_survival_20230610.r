@@ -1,18 +1,27 @@
-library(survival)
-library(tidyverse)
-library(simsurv)
-library(MASS)
-library(deepTL)
-library(survivalmodels)
-library(randomForestSRC)
-library(survivalsvm)
-library(reticulate)
-library(Hmisc)
-library(xgboost)
-library(survivalsvm)
-library(pheatmap)
-
-##### 0. Args Setting #####
+if (!require("survival")){install.packages("survival")}else{library(survival)}
+#library(survival)
+if (!require("tidyverse")){install.packages("tidyverse")}else{library(tidyverse)}
+#library(tidyverse)
+if (!require("simsurv")){install.packages("simsurv")}else{library(simsurv)}
+#library(simsurv)
+if (!require("MASS")){install.packages("MASS")}else{library(MASS)}
+#library(MASS)
+if (!require("deepTL")){devtools::install_github("SkadiEye/deepTL")}else{library(deepTL)}
+#library(deepTL)
+if (!require("survivalmodels")){install.packages("survivalmodels")}else{library(survivalmodels)}
+#library(survivalmodels)
+if (!require("randomForestSRC")){install.packages("randomForestSRC")}else{library(randomForestSRC)}
+#library(randomForestSRC)
+if (!require("survivalsvm")){install.packages("survivalsvm")}else{library(survivalsvm)}
+#library(survivalsvm)
+if (!require("reticulate")){install.packages("reticulate")}else{library(reticulate)}
+#library(reticulate)
+if (!require("Hmisc")){install.packages("Hmisc")}else{library(Hmisc)}
+#library(Hmisc)
+if (!require("xgboost")){install.packages("xgboost")}else{library(xgboost)}
+#library(xgboost)
+if (!require("pheatmap")){install.packages("pheatmap")}else{library(pheatmap)}
+#library(pheatmap)
 
 
 #' Cox-PH log-likelihood calculation
