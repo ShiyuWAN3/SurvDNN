@@ -1,27 +1,63 @@
-if (!require("survival")){install.packages("survival")}else{library(survival)}
+#if (!require("survival")){install.packages("survival")}else{library(survival)}
 #library(survival)
-if (!require("tidyverse")){install.packages("tidyverse")}else{library(tidyverse)}
+#if (!require("tidyverse")){install.packages("tidyverse")}else{library(tidyverse)}
 #library(tidyverse)
-if (!require("simsurv")){install.packages("simsurv")}else{library(simsurv)}
+#if (!require("simsurv")){install.packages("simsurv")}else{library(simsurv)}
 #library(simsurv)
-if (!require("MASS")){install.packages("MASS")}else{library(MASS)}
+#if (!require("MASS")){install.packages("MASS")}else{library(MASS)}
 #library(MASS)
-if (!require("deepTL")){devtools::install_github("SkadiEye/deepTL")}else{library(deepTL)}
+#if (!require("deepTL")){devtools::install_github("SkadiEye/deepTL")}else{library(deepTL)}
 #library(deepTL)
-if (!require("survivalmodels")){install.packages("survivalmodels")}else{library(survivalmodels)}
+#if (!require("survivalmodels")){install.packages("survivalmodels")}else{library(survivalmodels)}
 #library(survivalmodels)
-if (!require("randomForestSRC")){install.packages("randomForestSRC")}else{library(randomForestSRC)}
+#if (!require("randomForestSRC")){install.packages("randomForestSRC")}else{library(randomForestSRC)}
 #library(randomForestSRC)
-if (!require("survivalsvm")){install.packages("survivalsvm")}else{library(survivalsvm)}
+#if (!require("survivalsvm")){install.packages("survivalsvm")}else{library(survivalsvm)}
 #library(survivalsvm)
-if (!require("reticulate")){install.packages("reticulate")}else{library(reticulate)}
+#if (!require("reticulate")){install.packages("reticulate")}else{library(reticulate)}
 #library(reticulate)
-if (!require("Hmisc")){install.packages("Hmisc")}else{library(Hmisc)}
+#if (!require("Hmisc")){install.packages("Hmisc")}else{library(Hmisc)}
 #library(Hmisc)
-if (!require("xgboost")){install.packages("xgboost")}else{library(xgboost)}
+#if (!require("xgboost")){install.packages("xgboost")}else{library(xgboost)}
 #library(xgboost)
-if (!require("pheatmap")){install.packages("pheatmap")}else{library(pheatmap)}
+#if (!require("pheatmap")){install.packages("pheatmap")}else{library(pheatmap)}
 #library(pheatmap)
+
+#' Check PermSurvDNN's dependency
+#'
+#' @param package
+#'
+#' @return Check Dependency
+#' @export
+#' @author Shiyu Wan
+#'
+#' @examples TBD
+check_dependency = function( package = "PermSurvDNN"){
+  if (!require("survival")){install.packages("survival")}else{library(survival)}
+  #library(survival)
+  if (!require("tidyverse")){install.packages("tidyverse")}else{library(tidyverse)}
+  #library(tidyverse)
+  if (!require("simsurv")){install.packages("simsurv")}else{library(simsurv)}
+  #library(simsurv)
+  if (!require("MASS")){install.packages("MASS")}else{library(MASS)}
+  #library(MASS)
+  if (!require("deepTL")){devtools::install_github("SkadiEye/deepTL")}else{library(deepTL)}
+  #library(deepTL)
+  if (!require("survivalmodels")){install.packages("survivalmodels")}else{library(survivalmodels)}
+  #library(survivalmodels)
+  if (!require("randomForestSRC")){install.packages("randomForestSRC")}else{library(randomForestSRC)}
+  #library(randomForestSRC)
+  if (!require("survivalsvm")){install.packages("survivalsvm")}else{library(survivalsvm)}
+  #library(survivalsvm)
+  if (!require("reticulate")){install.packages("reticulate")}else{library(reticulate)}
+  #library(reticulate)
+  if (!require("Hmisc")){install.packages("Hmisc")}else{library(Hmisc)}
+  #library(Hmisc)
+  if (!require("xgboost")){install.packages("xgboost")}else{library(xgboost)}
+  #library(xgboost)
+  if (!require("pheatmap")){install.packages("pheatmap")}else{library(pheatmap)}
+  #library(pheatmap)
+}
 
 
 #' Cox-PH log-likelihood calculation
@@ -32,7 +68,7 @@ if (!require("pheatmap")){install.packages("pheatmap")}else{library(pheatmap)}
 #' @return Returns the IDs of patients whose event time is longer then t_threshold
 #' @export
 #'
-#' @examples
+#' @examples TBD
 #'
 #'
 risk.set <- function(t_threshold,times) {
@@ -50,7 +86,7 @@ risk.set <- function(t_threshold,times) {
 #' @return Returns the log-likelihood of a Cox-PH Model
 #' @export
 #'
-#' @examples
+#' @examples TBD
 #'
 loglik_coxph = function(Status,Times,f_hat_y){
   if (length(Status) != length(Times)){
