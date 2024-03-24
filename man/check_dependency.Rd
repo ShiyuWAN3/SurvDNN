@@ -4,10 +4,12 @@
 \alias{check_dependency}
 \title{Check PermSurvDNN's dependency}
 \usage{
-check_dependency(package = "PermSurvDNN")
+check_dependency(package = "PermSurvDNN", use_condaenv = "r-reticulate")
 }
 \arguments{
-\item{package}{}
+\item{package}{Default Package Name: PermSurvDNN}
+
+\item{use_condaenv}{Default Conda Environment's name given by reticulate; can be changed to specific conda environment}
 }
 \value{
 Check Dependency
@@ -16,7 +18,7 @@ Check Dependency
 Check PermSurvDNN's dependency
 }
 \examples{
-TBD
+check_dependency()
 }
 \author{
 Shiyu Wan

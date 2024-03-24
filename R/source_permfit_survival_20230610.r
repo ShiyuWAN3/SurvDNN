@@ -25,14 +25,15 @@
 
 #' Check PermSurvDNN's dependency
 #'
-#' @param package
+#' @param package Default Package Name: PermSurvDNN
+#' @param use_condaenv Default Conda Environment's name given by reticulate; can be changed to specific conda environment
 #'
 #' @return Check Dependency
 #' @export
 #' @author Shiyu Wan
 #'
-#' @examples TBD
-check_dependency = function( package = "PermSurvDNN"){
+#' @examples check_dependency()
+check_dependency = function( package = "PermSurvDNN",use_condaenv = "r-reticulate"){
   if (!require("survival")){install.packages("survival")}else{library(survival)}
   #library(survival)
   if (!require("tidyverse")){install.packages("tidyverse")}else{library(tidyverse)}
@@ -41,7 +42,7 @@ check_dependency = function( package = "PermSurvDNN"){
   #library(simsurv)
   if (!require("MASS")){install.packages("MASS")}else{library(MASS)}
   #library(MASS)
-  if (!require("deepTL")){devtools::install_github("SkadiEye/deepTL")}else{library(deepTL)}
+  if (!require("deepTL")){devtools::install_github("SkadiEye/deepTL")}else{library(deepTL); print("PermSurvDNN's dependencies successfully loaded. Congratulations!")}
   #library(deepTL)
   if (!require("survivalmodels")){install.packages("survivalmodels")}else{library(survivalmodels)}
   #library(survivalmodels)
@@ -56,7 +57,23 @@ check_dependency = function( package = "PermSurvDNN"){
   if (!require("xgboost")){install.packages("xgboost")}else{library(xgboost)}
   #library(xgboost)
   if (!require("pheatmap")){install.packages("pheatmap")}else{library(pheatmap)}
+  if (!require("pheatmap")){install.packages("stringr")}else{library(stringr)}
   #library(pheatmap)
+  conda_list = reticulate::conda_list()
+  conda_path = conda_list[which(conda_list$name==use_condaenv),2]
+  use_condaenv(conda_list[which(conda_list$name==use_condaenv),2])
+  deep = deepsurv(formula = Surv(time,status)~sexF+age+trt,data = simsurvdata(50)) %>% try()
+  if("try-error" %in% class(deep)) {
+    if (str_detect(deep,"pycox")){
+      print("Please install PyCox by survivalmodels::install_pycox() or reticulate::conda_install()")
+      print("Suggested pycox version: 0.2.3")
+    }else if (str_detect(deep,"pytorch")){
+      print("Please install PyTorch by reticulate::py_install(envname  = use_condaenv,packages = \"pytorch==1.9.0\")")
+      print("Suggested torch version: 1.9.0")
+    }
+  }else{
+    print("DeepSurv and DeepHit successfully loaded. Congratulations!")
+  }
 }
 
 
@@ -115,6 +132,8 @@ loglik_coxph = function(Status,Times,f_hat_y){
     return(loglik)
   }
 }
+
+
 
 mod_permfit <- function(method, model.type, object, ...) {
   if (model.type == "survival"){
