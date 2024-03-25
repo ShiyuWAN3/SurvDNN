@@ -12,7 +12,7 @@ check_dependency(package = "PermSurvDNN", use_condaenv = "r-reticulate")
 \item{use_condaenv}{Default Conda Environment's name given by reticulate; can be changed to specific conda environment}
 }
 \value{
-Check Dependency
+This function is used to check the dependency of PermSurvDNN, DeepSurv and other machine learning methods.
 }
 \description{
 Check PermSurvDNN's dependency

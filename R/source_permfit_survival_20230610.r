@@ -28,7 +28,7 @@
 #' @param package Default Package Name: PermSurvDNN
 #' @param use_condaenv Default Conda Environment's name given by reticulate; can be changed to specific conda environment
 #'
-#' @return Check Dependency
+#' @return This function is used to check the dependency of PermSurvDNN, DeepSurv and other machine learning methods.
 #' @export
 #' @author Shiyu Wan
 #'
@@ -135,6 +135,29 @@ loglik_coxph = function(Status,Times,f_hat_y){
 
 
 
+#' Internal, implemented machine learning models, including RSF, Lasso-Cox, etc.
+#'
+#' @param method Name of the methods:
+#' "random_forest" for random survival forest;
+#' "survival_aft" for accelerated failure time model;
+#' "survival_cox" for Cox-PH model;
+#' "DeepSurv" for DeepSurv;
+#' "DeepHit" for Deephit;
+#' "Xgboost" for XGBoost;
+#' "Survival_SVM" for survival support vector machine;
+#' "lasso" for Lasso-Cox;
+#' "ensemble_dnnet" for SurvDNN.
+#'
+#'
+#' @param model.type Default = "survival" for survival data
+#' @param object A dnnetSurvInput object, created by deepTL::importDnnetSurv()
+#' @param ... Other hyper-parameters of machine learning models
+#' @author Shiyu Wan
+#'
+#' @return Trained machine-learning models.
+#' @export
+#'
+#' @examples TBD
 mod_permfit <- function(method, model.type, object, ...) {
   if (model.type == "survival"){
     if (method == "random_forest"){
