@@ -4,8 +4,8 @@ Title: Enhanced Deep Neural Network and Feature Importance Test for Complex Surv
 Version: 0.1.0
 Author: Shiyu Wan
 Maintainer: Shiyu Wan <shiyu31@unc.edu>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
+Description: Code for Enhanced Deep Neural Network and Feature Importance Test for Complex Survival Data.
+    Implemented a permutation-based feature importance test for common machine-learning models, including RSF, XGBoost, DeepSurv, and DeepHit. Included SurvDNN, a Cox-based survival DNN augmented by bootstrap aggregating and filtering method.
 Imports:
     survival,
     MASS,
@@ -18,6 +18,7 @@ Imports:
     reticulate,
     Hmisc,
     xgboost
+Remotes: SkadiEye/deepTL
 Depends:
     survival,
     MASS,

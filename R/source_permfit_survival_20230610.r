@@ -33,7 +33,7 @@
 #' @author Shiyu Wan
 #'
 #' @examples check_dependency()
-check_dependency = function( package = "PermSurvDNN",use_condaenv = "r-reticulate"){
+check_dependency = function(package = "PermSurvDNN",use_condaenv = "r-reticulate"){
   if (!require("survival")){install.packages("survival")}else{library(survival)}
   #library(survival)
   if (!require("tidyverse")){install.packages("tidyverse")}else{library(tidyverse)}
@@ -253,6 +253,18 @@ mod_permfit <- function(method, model.type, object, ...) {
   return(mod)
 }
 
+#' Internal, implemented predicting algorithms for different machine learning models
+#'
+#' @param mod Trained machine-learning models, returned by mod_permfit()
+#' @param object Test dataset, a dnnetSurvInput object, created by deepTL::importDnnetSurv()
+#' @param method Type of the machine-learning models, e.g. "survival_cox" for Cox-PH model
+#' @param model.type Default = "survival" for survival data
+#' @author Shiyu Wan
+#'
+#' @return Risk prediction for patients in the test dataset.
+#' @export
+#'
+#' @examples TBD
 predict_mod_permfit <- function(mod, object, method, model.type) {
   if(model.type == "regression") {
     if(!method %in% c("linear", "lasso")) {
