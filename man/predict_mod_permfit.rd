@@ -16,7 +16,7 @@ predict_mod_permfit(mod, object, method, model.type)
 \item{model.type}{Default = "survival" for survival data}
 }
 \value{
-Risk prediction for patients in the test dataset
+Risk prediction for patients in the test dataset.
 }
 \description{
 Internal, implemented predicting algorithms for different machine learning models

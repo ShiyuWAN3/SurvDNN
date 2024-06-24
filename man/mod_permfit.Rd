@@ -18,11 +18,11 @@ mod_permfit(method, model.type, object, ...)
 "lasso" for Lasso-Cox;
 "ensemble_dnnet" for SurvDNN.}
 
-\item{model.type}{Default = "survival" for survival data}
+\item{model.type}{Default = "survival" for survival data.}
 
-\item{object}{A dnnetSurvInput object, created by deepTL::importDnnetSurv()}
+\item{object}{A dnnetSurvInput object, created by deepTL::importDnnetSurv().}
 
-\item{...}{Other hyper-parameters of machine learning models}
+\item{...}{Other hyper-parameters of machine learning models.}
 }
 \value{
 Trained machine-learning models.

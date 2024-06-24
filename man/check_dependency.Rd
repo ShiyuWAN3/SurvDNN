@@ -2,7 +2,7 @@
 % Please edit documentation in R/source_permfit_survival_20230610.r
 \name{check_dependency}
 \alias{check_dependency}
-\title{Check PermSurvDNN's dependency}
+\title{Check PermSurvDNN's dependency, especially for DeepSurv and DeepHit}
 \usage{
 check_dependency(package = "PermSurvDNN", use_condaenv = "r-reticulate")
 }
@@ -15,7 +15,7 @@ check_dependency(package = "PermSurvDNN", use_condaenv = "r-reticulate")
 This function is used to check the dependency of PermSurvDNN, DeepSurv and other machine learning methods.
 }
 \description{
-Check PermSurvDNN's dependency
+Check PermSurvDNN's dependency, especially for DeepSurv and DeepHit
 }
 \examples{
 check_dependency()

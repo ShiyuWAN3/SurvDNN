@@ -23,7 +23,7 @@
 #if (!require("pheatmap")){install.packages("pheatmap")}else{library(pheatmap)}
 #library(pheatmap)
 
-#' Check PermSurvDNN's dependency
+#' Check PermSurvDNN's dependency, especially for DeepSurv and DeepHit
 #'
 #' @param package Default Package Name: PermSurvDNN
 #' @param use_condaenv Default Conda Environment's name given by reticulate; can be changed to specific conda environment
@@ -149,9 +149,9 @@ loglik_coxph = function(Status,Times,f_hat_y){
 #' "ensemble_dnnet" for SurvDNN.
 #'
 #'
-#' @param model.type Default = "survival" for survival data
-#' @param object A dnnetSurvInput object, created by deepTL::importDnnetSurv()
-#' @param ... Other hyper-parameters of machine learning models
+#' @param model.type Default = "survival" for survival data.
+#' @param object A dnnetSurvInput object, created by deepTL::importDnnetSurv().
+#' @param ... Other hyper-parameters of machine learning models.
 #' @author Shiyu Wan
 #'
 #' @return Trained machine-learning models.
@@ -168,7 +168,7 @@ mod_permfit <- function(method, model.type, object, ...) {
       df_train=cbind(object@y,object@e,object@x) %>% as.data.frame()
       colnames(df_train)=c("EventTime","EventStatus",
                            colnames(object@x))
-      mod <- survival::survreg(Surv(EventTime,EventStatus)~.,data = df_train,dist = "logistic")
+      mod <- survival::survreg(Surv(EventTime,EventStatus)~.,data = df_train,dist = "weibull")
     } else if (method == "survival_cox") {
       df_train=cbind(object@y,object@e,object@x) %>% as.data.frame()
       colnames(df_train)=c("EventTime","EventStatus",
@@ -321,6 +321,16 @@ predict_mod_permfit <- function(mod, object, method, model.type) {
 }
 
 
+#' Title Internal Method to Calculate Harrel's C-Index
+#'
+#' @param Status 	A numeric vector of patients' survival status: 1 = event and 0 = censor
+#' @param Times  A numeric vector of patients' survival times
+#' @param f_hat_y  A numeric vector of patients' survival risk prediction.
+#'
+#' @return A numeric value: Harrel's C-Index
+#' @export
+#'
+#' @examples TBD
 Cindex = function(Status,Times,f_hat_y){
   Inf_fhaty = which(is.infinite(f_hat_y) == T | is.na(f_hat_y) == T)
   if (sum(which(is.infinite(f_hat_y) == T | is.na(f_hat_y) == T)) == 0){
@@ -334,6 +344,18 @@ Cindex = function(Status,Times,f_hat_y){
   }
 }
 
+
+
+#' Title Internal Method to Calculate Time-dependent AUC
+#'
+#' @param Status A numeric vector of patients' survival status: 1 = event and 0 = censor
+#' @param Times A numeric vector of patients' survival times
+#' @param f_hat_y A numeric vector of patients' survival risk prediction.
+#'
+#' @return An average of time-dependent AUCs at 25\%, 50\% amd 75\% quantile of the event time.
+#' @export
+#'
+#' @examples TBD
 timedAUC = function(Status,Times,f_hat_y){
   Inf_fhaty = which(is.infinite(f_hat_y) == T | is.na(f_hat_y) == T)
   if (sum(which(is.infinite(f_hat_y) == T | is.na(f_hat_y) == T)) == 0){
@@ -358,6 +380,21 @@ timedAUC = function(Status,Times,f_hat_y){
   }
 }
 
+#' Title  Internal Method for Measuring Prediction Performance Differences in Survival Models
+#'
+#' @param model.type Default = "survival" for survival data.
+#' @param y_hat A numeric vector of patients' survival risk prediction.
+#' @param y_hat0 A numeric vector of patients' survival risk prediction based on permuted data (Details explained in the manuscript).
+#' @param object Validation dataset, a dnnetSurvInput object, created by deepTL::importDnnetSurv().
+#' @param y_max Inner upper boundary for y in binary classification, can be ignored when model.type = "survival".
+#' @param y_min Inner lower boundary for y in binary classification, can be ignored when model.type = "survival".
+#' @param y_hatcoxl A numeric vector of patients' survival risk prediction returned by Cox-related models, e.g. Cox, SurvDNN, XGBoost.
+#' @param y_hat0coxl A numeric vector of patients' survival risk prediction returned by Cox-related models based on permuted data.
+#'
+#' @return A numeric vector consisting of differences in C-index, Cox's partial log-likelihood, and average time-dependent AUC, based on observed and permuted data.
+#' @export
+#'
+#' @examples TBD
 log_lik_diff <- function(model.type, y_hat, y_hat0, object,
                          y_max = 1-10**-10, y_min = 10**-10,
                          y_hatcoxl,y_hat0coxl) {
@@ -382,6 +419,30 @@ log_lik_diff <- function(model.type, y_hat, y_hat0, object,
 
 ##### 4. Permfit Survival #####
 
+#' Title PermFIT: A permutation-based feature importance test extended to survival analysis
+#'
+#' @param train A training dataset, which is a dnnetSurvInput object, created by deepTL::importDnnetSurv().
+#' @param validate A validation dataset is required when k_fold = 0.
+#' @param k_fold K-fold cross-fitting. Default k_fold = 5. If preferring not to use cross-fitting strategy, set k_fold to zero.
+#' @param n_perm Number of permutations repeated for each feature, which is L in the manuscript's algorithm 1. Default n_perm = 100.
+#' @param pathway_list For categorical variables, dummy variables to present them should be created in advance. For variables with more than 2 categories, all the corresponding dummy variables should be put in the patheway_list and permuted simultaneously to calculate the permutation feature importance.
+#' @param method Name of the methods:
+#' "random_forest" for random survival forest;
+#' "survival_aft" for accelerated failure time model;
+#' "survival_cox" for Cox-PH model;
+#' "DeepSurv" for DeepSurv;
+#' "DeepHit" for Deephit;
+#' "Xgboost" for XGBoost;
+#' "Survival_SVM" for survival support vector machine;
+#' "lasso" for Lasso-Cox;
+#' "ensemble_dnnet" for SurvDNN.
+#' @param shuffle If shuffle is null, the data will be shuffled for cross-fitting; if random shuffle is not desired, please provide a bector of numbers for cross-fitting indices.
+#' @param ... Additional parameters passed to each method.
+#'
+#' @return A PermFIT object, with importance = permutation feature importance for all continuous and binary features, and imp_block = permutation feature importance for all categorical features with more than two groups.
+#' @export
+#'
+#' @examples TBD
 permfit_survival <- function(train, validate = NULL, k_fold = 5,
                              n_perm = 100, pathway_list = list(),
                              method = c("ensemble_dnnet", "random_forest",
