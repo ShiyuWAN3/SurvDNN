@@ -30,9 +30,6 @@ Trained machine-learning models.
 \description{
 Internal, implemented machine learning models, including RSF, Lasso-Cox, etc.
 }
-\examples{
-TBD
-}
 \author{
 Shiyu Wan
 }

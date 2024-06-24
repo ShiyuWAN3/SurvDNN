@@ -19,6 +19,3 @@ A numeric value: Harrel's C-Index
 \description{
 Title Internal Method to Calculate Harrel's C-Index
 }
-\examples{
-TBD
-}

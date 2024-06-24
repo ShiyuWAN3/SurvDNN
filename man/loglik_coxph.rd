@@ -19,7 +19,3 @@ Returns the log-likelihood of a Cox-PH Model
 \description{
 Calculated the Cox-PH's log-likelihood based on event status, event time and risk prediction
 }
-\examples{
-TBD
-
-}

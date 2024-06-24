@@ -19,6 +19,3 @@ An average of time-dependent AUCs at 25\%, 50\% amd 75\% quantile of the event t
 \description{
 Title Internal Method to Calculate Time-dependent AUC
 }
-\examples{
-TBD
-}

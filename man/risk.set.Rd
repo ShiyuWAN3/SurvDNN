@@ -17,8 +17,3 @@ Returns the IDs of patients whose event time is longer then t_threshold
 \description{
 Cox-PH log-likelihood calculation
 }
-\examples{
-TBD
-
-
-}

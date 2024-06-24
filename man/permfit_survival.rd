@@ -49,6 +49,3 @@ A PermFIT object, with importance = permutation feature importance for all conti
 \description{
 Title PermFIT: A permutation-based feature importance test extended to survival analysis
 }
-\examples{
-TBD
-}

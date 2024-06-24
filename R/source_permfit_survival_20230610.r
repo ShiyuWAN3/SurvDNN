@@ -85,9 +85,6 @@ check_dependency = function(package = "PermSurvDNN",use_condaenv = "r-reticulate
 #' @return Returns the IDs of patients whose event time is longer then t_threshold
 #' @export
 #'
-#' @examples TBD
-#'
-#'
 risk.set <- function(t_threshold,times) {
   return(which(times >= t_threshold))
 }
@@ -103,7 +100,6 @@ risk.set <- function(t_threshold,times) {
 #' @return Returns the log-likelihood of a Cox-PH Model
 #' @export
 #'
-#' @examples TBD
 #'
 loglik_coxph = function(Status,Times,f_hat_y){
   if (length(Status) != length(Times)){
@@ -157,7 +153,6 @@ loglik_coxph = function(Status,Times,f_hat_y){
 #' @return Trained machine-learning models.
 #' @export
 #'
-#' @examples TBD
 mod_permfit <- function(method, model.type, object, ...) {
   if (model.type == "survival"){
     if (method == "random_forest"){
@@ -264,7 +259,6 @@ mod_permfit <- function(method, model.type, object, ...) {
 #' @return Risk prediction for patients in the test dataset.
 #' @export
 #'
-#' @examples TBD
 predict_mod_permfit <- function(mod, object, method, model.type) {
   if(model.type == "regression") {
     if(!method %in% c("linear", "lasso")) {
@@ -330,7 +324,6 @@ predict_mod_permfit <- function(mod, object, method, model.type) {
 #' @return A numeric value: Harrel's C-Index
 #' @export
 #'
-#' @examples TBD
 Cindex = function(Status,Times,f_hat_y){
   Inf_fhaty = which(is.infinite(f_hat_y) == T | is.na(f_hat_y) == T)
   if (sum(which(is.infinite(f_hat_y) == T | is.na(f_hat_y) == T)) == 0){
@@ -355,7 +348,6 @@ Cindex = function(Status,Times,f_hat_y){
 #' @return An average of time-dependent AUCs at 25\%, 50\% amd 75\% quantile of the event time.
 #' @export
 #'
-#' @examples TBD
 timedAUC = function(Status,Times,f_hat_y){
   Inf_fhaty = which(is.infinite(f_hat_y) == T | is.na(f_hat_y) == T)
   if (sum(which(is.infinite(f_hat_y) == T | is.na(f_hat_y) == T)) == 0){
@@ -394,7 +386,6 @@ timedAUC = function(Status,Times,f_hat_y){
 #' @return A numeric vector consisting of differences in C-index, Cox's partial log-likelihood, and average time-dependent AUC, based on observed and permuted data.
 #' @export
 #'
-#' @examples TBD
 log_lik_diff <- function(model.type, y_hat, y_hat0, object,
                          y_max = 1-10**-10, y_min = 10**-10,
                          y_hatcoxl,y_hat0coxl) {
@@ -442,7 +433,6 @@ log_lik_diff <- function(model.type, y_hat, y_hat0, object,
 #' @return A PermFIT object, with importance = permutation feature importance for all continuous and binary features, and imp_block = permutation feature importance for all categorical features with more than two groups.
 #' @export
 #'
-#' @examples TBD
 permfit_survival <- function(train, validate = NULL, k_fold = 5,
                              n_perm = 100, pathway_list = list(),
                              method = c("ensemble_dnnet", "random_forest",

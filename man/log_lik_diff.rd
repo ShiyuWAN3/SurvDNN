@@ -38,6 +38,3 @@ A numeric vector consisting of differences in C-index, Cox's partial log-likelih
 \description{
 Title  Internal Method for Measuring Prediction Performance Differences in Survival Models
 }
-\examples{
-TBD
-}

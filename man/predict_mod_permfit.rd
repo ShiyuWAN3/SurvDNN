@@ -21,9 +21,6 @@ Risk prediction for patients in the test dataset.
 \description{
 Internal, implemented predicting algorithms for different machine learning models
 }
-\examples{
-TBD
-}
 \author{
 Shiyu Wan
 }
