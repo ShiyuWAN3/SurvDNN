@@ -408,6 +408,95 @@ log_lik_diff <- function(model.type, y_hat, y_hat0, object,
   }
 }
 
+##### Update 07/03/2024: To solve the identifiability issue, relative risk will be centered around zero.
+
+#' Title Centralizing the relative risk prediction of SurvDNN around 0
+#'
+#' @param mod A fitted dnnet or dnnetEnsemble object
+#' @param object The training set corresponds to the above model
+#'
+#' @return A centralized model with the last bias being updated, and the event time of the Training set
+#' @export
+#'
+model.centralize = function(mod,object){
+  if (class(mod)[1] == "dnnet"){
+    Uncentralized_Risk = predict(mod,object@x)
+    mod@bias[[length(mod@bias)]] = mod@bias[[length(mod@bias)]] - mean(Uncentralized_Risk,na.rm = T)
+  }else if (class(mod)[1] == "dnnetEnsemble"){
+    for (i in 1:length(mod@model.list)) {
+      Uncentralized_Risk_i = predict(mod@model.list[[i]],object@x)
+      mod@model.list[[i]]@bias[[length(mod@model.list[[i]]@bias)]] = mod@model.list[[i]]@bias[[length(mod@model.list[[i]]@bias)]] -mean(Uncentralized_Risk_i)
+    }
+  }
+  return(list(mod,object))
+}
+
+#' Title Internal Method to predict patient's survival based on relative risk prediction and Breslow's estimator of baseline cumulative hazard
+#'
+#' @param centralized_model The output of function model.centralize().
+#' @param test_object Test dataset, a dnnetSurvInput object
+#' @param time_point If specified, then it corresponds to the specific time points where you want to predict the patient's survival; otherwise, survival probability of each unique failure time in the training dataset willbe provided
+#'
+#' @return A data.frame with each patient's survival probability prediction.
+#' @export
+#'
+predict_surv_df = function(centralized_model,test_object,time_point = NULL){
+  mod = centralized_model[[1]]
+  train_object = centralized_model[[2]]
+  fail_time = train_object@y[which(train_object@e==1)]
+  unique_time_in_train = unique(train_object@y)
+  sort_time_in_train = sort(unique_time_in_train)
+  unique_fail_time = unique(fail_time)
+  sort_fail_time = sort(unique_fail_time)
+  train_risk_score = predict(mod,train_object@x)
+  test_risk_score = predict(mod,test_object@x)
+  # Estimate deltaH0(T_i) based on ## Time-to-Event Prediction with Neural Networks and Cox Regression
+  dH0 = c()
+  for (i in 1:length(sort_time_in_train)) {
+    T_i = sort_time_in_train[i]
+    Death_at_T_i = which(train_object@y == T_i & train_object@e == 1)
+    D_i = length(Death_at_T_i)
+    Riskset_i = risk.set(t_threshold = T_i,times = train_object@y)
+    #dH_0_Ti = D_i/sum(exp(train_risk_score)[Riskset_i])
+    dH_0_Ti = D_i/sum(exp(train_risk_score)[which(train_object@y > T_i)])
+    dH0 = append(dH0,dH_0_Ti)
+  }
+  if (is.null(time_point)){
+    # Only Calculate H0(t) for all the failure time in the training set
+    # If specific time is not provided, then all the failure time points in the training set will be considered
+    H0 = c()
+    for (i in 1:length(sort_fail_time)) {
+      t = sort_fail_time[i]
+      H0_t = sum(dH0[1:last(which(sort_time_in_train<=t))])
+      H0 = append(H0,H0_t)
+    }
+    Surv_df_test = data.frame()
+    for (i in 1:length(test_risk_score)) {
+      surv_df = t(as.data.frame(exp(-H0*exp(test_risk_score[i]))))
+      colnames(surv_df) = round(sort_fail_time,3)
+      rownames(surv_df) = i
+      Surv_df_test = rbind(Surv_df_test,surv_df)
+    }
+    return(Surv_df_test)
+  }else{
+    sort_fail_time = sort(time_point)
+    H0 = c()
+    for (i in 1:length(sort_fail_time)) {
+      t = sort_fail_time[i]
+      H0_t = sum(dH0[1:last(which(sort_time_in_train<=t))])
+      H0 = append(H0,H0_t)
+    }
+    Surv_df_test = data.frame()
+    for (i in 1:length(test_risk_score)) {
+      surv_df = t(as.data.frame(exp(-H0*exp(test_risk_score[i]))))
+      colnames(surv_df) = round(sort_fail_time,3)
+      rownames(surv_df) = i
+      Surv_df_test = rbind(Surv_df_test,surv_df)
+    }
+    return(Surv_df_test)
+  }
+}
+
 ##### 4. Permfit Survival #####
 
 #' Title PermFIT: A permutation-based feature importance test extended to survival analysis
@@ -448,7 +537,7 @@ permfit_survival <- function(train, validate = NULL, k_fold = 5,
   # Number of Covariates
   p <- dim(train@x)[2]
 
-  # 根据导入数据的类型，判断应该使用的模型的类型
+  # Decide model type based on input data
   if(class(train) == "dnnetSurvInput") {
     model.type <- "survival"
   } else if(class(train) == "dnnetInput") {
@@ -461,14 +550,14 @@ permfit_survival <- function(train, validate = NULL, k_fold = 5,
     stop("'train' has to be either a dnnetInput or dnnetSurvInput object.")
   }
 
-  # 不进行交叉验证，需要一个测试集
+  # No Cross validation, need a validation set
   if(k_fold == 0) {
     if(is.null(validate)){
       stop("A validation set is required when k = 0. ")
     }
-    # 测试集的样本量
+    # Sample Size of Validation set
     n_valid <- dim(validate@x)[1]
-    # 在训练集上拟合模型
+    # fit model
     mod = mod_permfit(method = method,model.type = model.type,object = train,...)
     # Risk Score
     f_hat_x <- predict_mod_permfit(mod = mod,object = validate,
@@ -476,10 +565,10 @@ permfit_survival <- function(train, validate = NULL, k_fold = 5,
     valid_ind <- list(1:length(validate@y))
     y_pred <- f_hat_x
 
-    # n_pathway: 对于多个分组的变量，会生成一系列的dummy
-    # 这个时候要同时进行permfit
+    # n_pathway: for categorical variables，several dummy variable will be created
+    # need to permutation all such dummies simultaneously
 
-    # To Be Done
+
     if(n_pathway >= 1) {
       p_score <- array(NA, dim = c(n_perm, n_valid, n_pathway))
       p_scorel <- array(NA, dim = c(n_perm, n_valid, n_pathway))
@@ -529,39 +618,36 @@ permfit_survival <- function(train, validate = NULL, k_fold = 5,
         p_score2a[l, , i] = diff[3]
       }
     }
-  } else { # K-Fold 交叉验证
+  } else { # K-Fold
     valid_ind <- list()
-    # 对 n 进行不放回抽样：重新排序
+    # Shuffle the sample
     if(is.null(shuffle)) {
       shuffle <- sample(n)
     }
-    # train 的观测数
     n_valid <- n
-    # 生成了很多个 0
     y_pred <- numeric(length(train@y))
 
-    ## n_pathway：针对dummy的
+    ## n_pathway：for dummies
     if(n_pathway >= 1){
       p_score <- array(NA, dim = c(n_perm, n_valid, n_pathway))
       p_scorel <- array(NA, dim = c(n_perm, n_valid, n_pathway))
       p_scorea <- array(NA, dim = c(n_perm, n_valid, n_pathway))
     }
 
-    # 初始化permutation score矩阵
+    # initialize permutation score matrix
     p_score2 <- array(NA, dim = c(n_perm, n_valid, p))
     p_score2l <- array(NA, dim = c(n_perm, n_valid, p))
     p_score2a <- array(NA, dim = c(n_perm, n_valid, p))
 
-    # 验证集误差初始化：生成k-折个0
     valid_error <- numeric(k_fold)
 
     # K-Fold:: Start
     for(k in 1:k_fold){
-      # 先将n个样本生成一个排列，然后按顺序取
+      # Splid the data
       train_spl <- splitDnnet(train, shuffle[floor((k-1)*n/k_fold+1):floor(k*n/k_fold)])
       # 记录所用的验证集的观测编号
       valid_ind[[k]] <- shuffle[floor((k-1)*n/k_fold+1):floor(k*n/k_fold)]
-      # Typo: Valid 是其中的 4折
+      # Typo: Valid is the 4 of 5 folds
       mod = mod_permfit(method = method,model.type = model.type,object = train_spl$valid,...)
       #print(mod)
       # Risk Score
@@ -602,7 +688,7 @@ permfit_survival <- function(train, validate = NULL, k_fold = 5,
         }
       }
       # Permfit::Core
-      # p: 第p个协变量
+      # p: p the covariate
 
       for (i in 1:p) {
         for (l in 1:n_perm) {

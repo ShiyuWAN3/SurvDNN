@@ -1,4 +1,4 @@
-Package: PermSurvDNN
+Package: SurvDNN
 Type: Package
 Title: Enhanced Deep Neural Network and Feature Importance Test for Complex Survival Data
 Version: 0.1.0
@@ -18,7 +18,7 @@ Imports:
     reticulate,
     Hmisc,
     xgboost
-Remotes: SkadiEye/deepTL
+Remotes: ShiyuWAN3/deepTL
 Depends:
     survival,
     MASS,
