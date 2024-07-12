@@ -57,7 +57,8 @@ check_dependency = function(package = "PermSurvDNN",use_condaenv = "r-reticulate
   if (!require("xgboost")){install.packages("xgboost")}else{library(xgboost)}
   #library(xgboost)
   if (!require("pheatmap")){install.packages("pheatmap")}else{library(pheatmap)}
-  if (!require("pheatmap")){install.packages("stringr")}else{library(stringr)}
+  if (!require("stringr")){install.packages("stringr")}else{library(stringr)}
+  if (!require("timeROC")){install.packages("timeROC")}else{library(timeROC)}
   #library(pheatmap)
   conda_list = reticulate::conda_list()
   conda_path = conda_list[which(conda_list$name==use_condaenv),2]

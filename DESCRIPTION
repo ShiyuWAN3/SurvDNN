@@ -17,7 +17,8 @@ Imports:
     survivalsvm,
     reticulate,
     Hmisc,
-    xgboost
+    xgboost,
+    timeROC
 Remotes: ShiyuWAN3/deepTL
 Depends:
     survival,
@@ -30,7 +31,8 @@ Depends:
     survivalsvm,
     reticulate,
     Hmisc,
-    xgboost
+    xgboost,
+    timeROC
 License: What license is it under?
 Encoding: UTF-8
 LazyData: true
