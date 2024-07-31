@@ -2,20 +2,20 @@
 % Please edit documentation in R/source_permfit_survival_20230610.r
 \name{Cindex}
 \alias{Cindex}
-\title{Title Internal Method to Calculate Harrel's C-Index}
+\title{Title Internal Method to Calculate Harrell's C-Index}
 \usage{
 Cindex(Status, Times, f_hat_y)
 }
 \arguments{
-\item{Status}{A numeric vector of patients' survival status: 1 = event and 0 = censor}
+\item{Status}{A numeric vector of patients' survival status: 1 = event, 0 = censored.}
 
-\item{Times}{A numeric vector of patients' survival times}
+\item{Times}{A numeric vector of patients' survival times.}
 
-\item{f_hat_y}{A numeric vector of patients' survival risk prediction.}
+\item{f_hat_y}{A numeric vector of patients' survival risk predictions.}
 }
 \value{
-A numeric value: Harrel's C-Index
+A numeric value representing Harrell's C-Index.
 }
 \description{
-Title Internal Method to Calculate Harrel's C-Index
+Title Internal Method to Calculate Harrell's C-Index
 }

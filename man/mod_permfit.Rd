@@ -2,33 +2,33 @@
 % Please edit documentation in R/source_permfit_survival_20230610.r
 \name{mod_permfit}
 \alias{mod_permfit}
-\title{Internal, implemented machine learning models, including RSF, Lasso-Cox, etc.}
+\title{Title Internal Implementations of Machine Learning Models, Including RSF, Lasso-Cox, etc.}
 \usage{
 mod_permfit(method, model.type, object, ...)
 }
 \arguments{
-\item{method}{Name of the methods:
-"random_forest" for random survival forest;
-"survival_aft" for accelerated failure time model;
-"survival_cox" for Cox-PH model;
-"DeepSurv" for DeepSurv;
-"DeepHit" for Deephit;
-"Xgboost" for XGBoost;
-"Survival_SVM" for survival support vector machine;
-"lasso" for Lasso-Cox;
-"ensemble_dnnet" for SurvDNN.}
+\item{method}{Name of the method:
+- "random_forest" for Random Survival Forest;
+- "survival_aft" for Accelerated Failure Time Model;
+- "survival_cox" for Cox-PH Model;
+- "DeepSurv" for DeepSurv;
+- "DeepHit" for DeepHit;
+- "Xgboost" for XGBoost;
+- "Survival_SVM" for Survival Support Vector Machine;
+- "lasso" for Lasso-Cox;
+- "ensemble_dnnet" for SurvDNN.}
 
-\item{model.type}{Default = "survival" for survival data.}
+\item{model.type}{Default is "survival" for survival data.}
 
 \item{object}{A dnnetSurvInput object, created by deepTL::importDnnetSurv().}
 
-\item{...}{Other hyper-parameters of machine learning models.}
+\item{...}{Other hyper-parameters for the machine learning models.}
 }
 \value{
-Trained machine-learning models.
+Trained machine learning models.
 }
 \description{
-Internal, implemented machine learning models, including RSF, Lasso-Cox, etc.
+Title Internal Implementations of Machine Learning Models, Including RSF, Lasso-Cox, etc.
 }
 \author{
 Shiyu Wan

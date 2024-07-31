@@ -18,28 +18,28 @@ permfit_survival(
 )
 }
 \arguments{
-\item{train}{A training dataset, which is a dnnetSurvInput object, created by deepTL::importDnnetSurv().}
+\item{train}{A training dataset, which is a dnnetSurvInput object created by deepTL::importDnnetSurv().}
 
 \item{validate}{A validation dataset is required when k_fold = 0.}
 
-\item{k_fold}{K-fold cross-fitting. Default k_fold = 5. If preferring not to use cross-fitting strategy, set k_fold to zero.}
+\item{k_fold}{K-fold cross-fitting. Default is k_fold = 5. If preferring not to use the cross-fitting strategy, set k_fold to zero.}
 
-\item{n_perm}{Number of permutations repeated for each feature, which is L in the manuscript's algorithm 1. Default n_perm = 100.}
+\item{n_perm}{Number of permutations repeated for each feature, which is R in the manuscript's algorithm 1. Default is n_perm = 100.}
 
-\item{pathway_list}{For categorical variables, dummy variables to present them should be created in advance. For variables with more than 2 categories, all the corresponding dummy variables should be put in the patheway_list and permuted simultaneously to calculate the permutation feature importance.}
+\item{pathway_list}{For categorical variables, dummy variables should be created in advance. For variables with more than 2 categories, all the corresponding dummy variables should be included in the pathway_list and permuted simultaneously to calculate the permutation feature importance.}
 
-\item{method}{Name of the methods:
-"random_forest" for random survival forest;
-"survival_aft" for accelerated failure time model;
-"survival_cox" for Cox-PH model;
-"DeepSurv" for DeepSurv;
-"DeepHit" for Deephit;
-"Xgboost" for XGBoost;
-"Survival_SVM" for survival support vector machine;
-"lasso" for Lasso-Cox;
-"ensemble_dnnet" for SurvDNN.}
+\item{method}{Name of the method:
+- "random_forest" for Random Survival Forest;
+- "survival_aft" for Accelerated Failure Time Model;
+- "survival_cox" for Cox-PH Model;
+- "DeepSurv" for DeepSurv;
+- "DeepHit" for DeepHit;
+- "Xgboost" for XGBoost;
+- "Survival_SVM" for Survival Support Vector Machine;
+- "lasso" for Lasso-Cox;
+- "ensemble_dnnet" for SurvDNN.}
 
-\item{shuffle}{If shuffle is null, the data will be shuffled for cross-fitting; if random shuffle is not desired, please provide a bector of numbers for cross-fitting indices.}
+\item{shuffle}{If NULL, the data will be shuffled for cross-fitting; if random shuffle is not desired, provide a vector of numbers for cross-fitting indices.}
 
 \item{...}{Additional parameters passed to each method.}
 }

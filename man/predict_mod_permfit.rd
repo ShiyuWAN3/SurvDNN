@@ -2,24 +2,24 @@
 % Please edit documentation in R/source_permfit_survival_20230610.r
 \name{predict_mod_permfit}
 \alias{predict_mod_permfit}
-\title{Internal, implemented predicting algorithms for different machine learning models}
+\title{Title Internal Implementations of Predicting Algorithms for Different Machine Learning Models}
 \usage{
 predict_mod_permfit(mod, object, method, model.type)
 }
 \arguments{
-\item{mod}{Trained machine-learning models, returned by mod_permfit()}
+\item{mod}{Trained machine learning models, returned by mod_permfit().}
 
-\item{object}{Test dataset, a dnnetSurvInput object, created by deepTL::importDnnetSurv()}
+\item{object}{Test dataset, a dnnetSurvInput object created by deepTL::importDnnetSurv().}
 
-\item{method}{Type of the machine-learning models, e.g. "survival_cox" for Cox-PH model}
+\item{method}{Type of the machine learning models, e.g., "survival_cox" for Cox-PH model.}
 
-\item{model.type}{Default = "survival" for survival data}
+\item{model.type}{Default is "survival" for survival data.}
 }
 \value{
-Risk prediction for patients in the test dataset.
+Risk predictions for patients in the test dataset.
 }
 \description{
-Internal, implemented predicting algorithms for different machine learning models
+Title Internal Implementations of Predicting Algorithms for Different Machine Learning Models
 }
 \author{
 Shiyu Wan

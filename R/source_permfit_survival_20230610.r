@@ -23,17 +23,17 @@
 #if (!require("pheatmap")){install.packages("pheatmap")}else{library(pheatmap)}
 #library(pheatmap)
 
-#' Check PermSurvDNN's dependency, especially for DeepSurv and DeepHit
+#' Title Check SurvDNN's dependency, especially for DeepSurv and DeepHit
 #'
-#' @param package Default Package Name: PermSurvDNN
-#' @param use_condaenv Default Conda Environment's name given by reticulate; can be changed to specific conda environment
+#' @param package The name of the package to check dependencies for. Default is "SurvDNN".
+#' @param use_condaenv The name of the Conda environment to use, as specified by reticulate. Can be changed to a specific Conda environment.
 #'
-#' @return This function is used to check the dependency of PermSurvDNN, DeepSurv and other machine learning methods.
+#' @return This function checks the dependencies for SurvDNN, DeepSurv, DeepHit, and other related machine learning methods.
 #' @export
 #' @author Shiyu Wan
 #'
 #' @examples check_dependency()
-check_dependency = function(package = "PermSurvDNN",use_condaenv = "r-reticulate"){
+check_dependency = function(package = "SurvDNN",use_condaenv = "r-reticulate"){
   if (!require("survival")){install.packages("survival")}else{library(survival)}
   #library(survival)
   if (!require("tidyverse")){install.packages("tidyverse")}else{library(tidyverse)}
@@ -78,12 +78,12 @@ check_dependency = function(package = "PermSurvDNN",use_condaenv = "r-reticulate
 }
 
 
-#' Cox-PH log-likelihood calculation
+#' Title Cox-PH log-likelihood calculation
 #'
-#' @param t_threshold Calculate the risk set at time t_throshold
-#' @param times Patients' event times
+#' @param t_threshold The threshold time to calculate the risk set.
+#' @param times Patients' event times.
 #'
-#' @return Returns the IDs of patients whose event time is longer then t_threshold
+#' @return Returns the IDs of patients whose event times are longer than t_threshold.
 #' @export
 #'
 risk.set <- function(t_threshold,times) {
@@ -92,13 +92,13 @@ risk.set <- function(t_threshold,times) {
 
 
 
-#' Calculated the Cox-PH's log-likelihood based on event status, event time and risk prediction
+#' Title Calculate the Cox-PH Log-Likelihood Based on Event Status, Event Time, and Risk Prediction
 #'
-#' @param Status Patients' event statuses
-#' @param Times Patients' event times
-#' @param f_hat_y X \%*\% Beta
+#' @param Status Patients' event statuses.
+#' @param Times Patients' event times.
+#' @param f_hat_y The product of X and Beta (X \%*\% Beta).
 #'
-#' @return Returns the log-likelihood of a Cox-PH Model
+#' @return Returns the log-likelihood of a Cox-PH model.
 #' @export
 #'
 #'
@@ -132,26 +132,26 @@ loglik_coxph = function(Status,Times,f_hat_y){
 
 
 
-#' Internal, implemented machine learning models, including RSF, Lasso-Cox, etc.
+#' Title Internal Implementations of Machine Learning Models, Including RSF, Lasso-Cox, etc.
 #'
-#' @param method Name of the methods:
-#' "random_forest" for random survival forest;
-#' "survival_aft" for accelerated failure time model;
-#' "survival_cox" for Cox-PH model;
-#' "DeepSurv" for DeepSurv;
-#' "DeepHit" for Deephit;
-#' "Xgboost" for XGBoost;
-#' "Survival_SVM" for survival support vector machine;
-#' "lasso" for Lasso-Cox;
-#' "ensemble_dnnet" for SurvDNN.
+#' @param method Name of the method:
+#' - "random_forest" for Random Survival Forest;
+#' - "survival_aft" for Accelerated Failure Time Model;
+#' - "survival_cox" for Cox-PH Model;
+#' - "DeepSurv" for DeepSurv;
+#' - "DeepHit" for DeepHit;
+#' - "Xgboost" for XGBoost;
+#' - "Survival_SVM" for Survival Support Vector Machine;
+#' - "lasso" for Lasso-Cox;
+#' - "ensemble_dnnet" for SurvDNN.
 #'
 #'
-#' @param model.type Default = "survival" for survival data.
+#' @param model.type Default is "survival" for survival data.
 #' @param object A dnnetSurvInput object, created by deepTL::importDnnetSurv().
-#' @param ... Other hyper-parameters of machine learning models.
+#' @param ... Other hyper-parameters for the machine learning models.
 #' @author Shiyu Wan
 #'
-#' @return Trained machine-learning models.
+#' @return Trained machine learning models.
 #' @export
 #'
 mod_permfit <- function(method, model.type, object, ...) {
@@ -249,15 +249,15 @@ mod_permfit <- function(method, model.type, object, ...) {
   return(mod)
 }
 
-#' Internal, implemented predicting algorithms for different machine learning models
+#' Title Internal Implementations of Predicting Algorithms for Different Machine Learning Models
 #'
-#' @param mod Trained machine-learning models, returned by mod_permfit()
-#' @param object Test dataset, a dnnetSurvInput object, created by deepTL::importDnnetSurv()
-#' @param method Type of the machine-learning models, e.g. "survival_cox" for Cox-PH model
-#' @param model.type Default = "survival" for survival data
+#' @param mod Trained machine learning models, returned by mod_permfit().
+#' @param object Test dataset, a dnnetSurvInput object created by deepTL::importDnnetSurv().
+#' @param method Type of the machine learning models, e.g., "survival_cox" for Cox-PH model.
+#' @param model.type Default is "survival" for survival data.
 #' @author Shiyu Wan
 #'
-#' @return Risk prediction for patients in the test dataset.
+#' @return Risk predictions for patients in the test dataset.
 #' @export
 #'
 predict_mod_permfit <- function(mod, object, method, model.type) {
@@ -316,13 +316,13 @@ predict_mod_permfit <- function(mod, object, method, model.type) {
 }
 
 
-#' Title Internal Method to Calculate Harrel's C-Index
+#' Title Internal Method to Calculate Harrell's C-Index
 #'
-#' @param Status 	A numeric vector of patients' survival status: 1 = event and 0 = censor
-#' @param Times  A numeric vector of patients' survival times
-#' @param f_hat_y  A numeric vector of patients' survival risk prediction.
+#' @param Status 	A numeric vector of patients' survival status: 1 = event, 0 = censored.
+#' @param Times  A numeric vector of patients' survival times.
+#' @param f_hat_y  A numeric vector of patients' survival risk predictions.
 #'
-#' @return A numeric value: Harrel's C-Index
+#' @return A numeric value representing Harrell's C-Index.
 #' @export
 #'
 Cindex = function(Status,Times,f_hat_y){
@@ -340,13 +340,13 @@ Cindex = function(Status,Times,f_hat_y){
 
 
 
-#' Title Internal Method to Calculate Time-dependent AUC
+#' Title Internal Method to Calculate Time-Dependent AUC
 #'
-#' @param Status A numeric vector of patients' survival status: 1 = event and 0 = censor
-#' @param Times A numeric vector of patients' survival times
-#' @param f_hat_y A numeric vector of patients' survival risk prediction.
+#' @param Status A numeric vector of patients' survival status: 1 = event, 0 = censored.
+#' @param Times A numeric vector of patients' survival times.
+#' @param f_hat_y A numeric vector of patients' survival risk predictions.
 #'
-#' @return An average of time-dependent AUCs at 25\%, 50\% amd 75\% quantile of the event time.
+#' @return The average of time-dependent AUCs at the 25\%, 50\%, and 75\% quantiles of the event time.
 #' @export
 #'
 timedAUC = function(Status,Times,f_hat_y){
@@ -375,14 +375,14 @@ timedAUC = function(Status,Times,f_hat_y){
 
 #' Title  Internal Method for Measuring Prediction Performance Differences in Survival Models
 #'
-#' @param model.type Default = "survival" for survival data.
-#' @param y_hat A numeric vector of patients' survival risk prediction.
-#' @param y_hat0 A numeric vector of patients' survival risk prediction based on permuted data (Details explained in the manuscript).
-#' @param object Validation dataset, a dnnetSurvInput object, created by deepTL::importDnnetSurv().
-#' @param y_max Inner upper boundary for y in binary classification, can be ignored when model.type = "survival".
-#' @param y_min Inner lower boundary for y in binary classification, can be ignored when model.type = "survival".
-#' @param y_hatcoxl A numeric vector of patients' survival risk prediction returned by Cox-related models, e.g. Cox, SurvDNN, XGBoost.
-#' @param y_hat0coxl A numeric vector of patients' survival risk prediction returned by Cox-related models based on permuted data.
+#' @param model.type Default is "survival" for survival data.
+#' @param y_hat A numeric vector of patients' survival risk predictions.
+#' @param y_hat0 A numeric vector of patients' survival risk predictions based on permuted data (details explained in the manuscript).
+#' @param object Validation dataset, a dnnetSurvInput object created by deepTL::importDnnetSurv().
+#' @param y_max Inner upper boundary for y in binary classification; can be ignored when model.type is "survival".
+#' @param y_min Inner lower boundary for y in binary classification; can be ignored when model.type is "survival".
+#' @param y_hatcoxl A numeric vector of patients' survival risk predictions returned by Cox-related models, e.g., Cox, SurvDNN, XGBoost.
+#' @param y_hat0coxl A numeric vector of patients' survival risk predictions returned by Cox-related models based on permuted data.
 #'
 #' @return A numeric vector consisting of differences in C-index, Cox's partial log-likelihood, and average time-dependent AUC, based on observed and permuted data.
 #' @export
@@ -411,12 +411,12 @@ log_lik_diff <- function(model.type, y_hat, y_hat0, object,
 
 ##### Update 07/03/2024: To solve the identifiability issue, relative risk will be centered around zero.
 
-#' Title Centralizing the relative risk prediction of SurvDNN around 0
+#' Title Centralizing the Relative Risk Prediction of SurvDNN Around 0
 #'
-#' @param mod A fitted dnnet or dnnetEnsemble object
-#' @param object The training set corresponds to the above model
+#' @param mod A fitted dnnet or dnnetEnsemble object.
+#' @param object The training set corresponding to the above model.
 #'
-#' @return A centralized model with the last bias being updated, and the event time of the Training set
+#' @return A centralized model with the last bias updated, and the event times of the training set.
 #' @export
 #'
 model.centralize = function(mod,object){
@@ -432,11 +432,11 @@ model.centralize = function(mod,object){
   return(list(mod,object))
 }
 
-#' Title Internal Method to predict patient's survival based on relative risk prediction and Breslow's estimator of baseline cumulative hazard
+#' Title Internal Method to Predict Patient's Survival Based on Relative Risk Prediction and Breslow's Estimator of Baseline Cumulative Hazard
 #'
-#' @param centralized_model The output of function model.centralize().
-#' @param test_object Test dataset, a dnnetSurvInput object
-#' @param time_point If specified, then it corresponds to the specific time points where you want to predict the patient's survival; otherwise, survival probability of each unique failure time in the training dataset willbe provided
+#' @param centralized_model The output of the function model.centralize().
+#' @param test_object Test dataset, a dnnetSurvInput object.
+#' @param time_point If specified, it corresponds to the specific time points where you want to predict the patient's survival; otherwise, the survival probability at each unique failure time in the training dataset will be provided.
 #'
 #' @return A data.frame with each patient's survival probability prediction.
 #' @export
@@ -502,22 +502,22 @@ predict_surv_df = function(centralized_model,test_object,time_point = NULL){
 
 #' Title PermFIT: A permutation-based feature importance test extended to survival analysis
 #'
-#' @param train A training dataset, which is a dnnetSurvInput object, created by deepTL::importDnnetSurv().
+#' @param train A training dataset, which is a dnnetSurvInput object created by deepTL::importDnnetSurv().
 #' @param validate A validation dataset is required when k_fold = 0.
-#' @param k_fold K-fold cross-fitting. Default k_fold = 5. If preferring not to use cross-fitting strategy, set k_fold to zero.
-#' @param n_perm Number of permutations repeated for each feature, which is L in the manuscript's algorithm 1. Default n_perm = 100.
-#' @param pathway_list For categorical variables, dummy variables to present them should be created in advance. For variables with more than 2 categories, all the corresponding dummy variables should be put in the patheway_list and permuted simultaneously to calculate the permutation feature importance.
-#' @param method Name of the methods:
-#' "random_forest" for random survival forest;
-#' "survival_aft" for accelerated failure time model;
-#' "survival_cox" for Cox-PH model;
-#' "DeepSurv" for DeepSurv;
-#' "DeepHit" for Deephit;
-#' "Xgboost" for XGBoost;
-#' "Survival_SVM" for survival support vector machine;
-#' "lasso" for Lasso-Cox;
-#' "ensemble_dnnet" for SurvDNN.
-#' @param shuffle If shuffle is null, the data will be shuffled for cross-fitting; if random shuffle is not desired, please provide a bector of numbers for cross-fitting indices.
+#' @param k_fold K-fold cross-fitting. Default is k_fold = 5. If preferring not to use the cross-fitting strategy, set k_fold to zero.
+#' @param n_perm Number of permutations repeated for each feature, which is R in the manuscript's algorithm 1. Default is n_perm = 100.
+#' @param pathway_list For categorical variables, dummy variables should be created in advance. For variables with more than 2 categories, all the corresponding dummy variables should be included in the pathway_list and permuted simultaneously to calculate the permutation feature importance.
+#' @param method Name of the method:
+#' - "random_forest" for Random Survival Forest;
+#' - "survival_aft" for Accelerated Failure Time Model;
+#' - "survival_cox" for Cox-PH Model;
+#' - "DeepSurv" for DeepSurv;
+#' - "DeepHit" for DeepHit;
+#' - "Xgboost" for XGBoost;
+#' - "Survival_SVM" for Survival Support Vector Machine;
+#' - "lasso" for Lasso-Cox;
+#' - "ensemble_dnnet" for SurvDNN.
+#' @param shuffle If NULL, the data will be shuffled for cross-fitting; if random shuffle is not desired, provide a vector of numbers for cross-fitting indices.
 #' @param ... Additional parameters passed to each method.
 #'
 #' @return A PermFIT object, with importance = permutation feature importance for all continuous and binary features, and imp_block = permutation feature importance for all categorical features with more than two groups.

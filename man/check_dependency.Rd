@@ -2,20 +2,20 @@
 % Please edit documentation in R/source_permfit_survival_20230610.r
 \name{check_dependency}
 \alias{check_dependency}
-\title{Check PermSurvDNN's dependency, especially for DeepSurv and DeepHit}
+\title{Title Check SurvDNN's dependency, especially for DeepSurv and DeepHit}
 \usage{
-check_dependency(package = "PermSurvDNN", use_condaenv = "r-reticulate")
+check_dependency(package = "SurvDNN", use_condaenv = "r-reticulate")
 }
 \arguments{
-\item{package}{Default Package Name: PermSurvDNN}
+\item{package}{The name of the package to check dependencies for. Default is "SurvDNN".}
 
-\item{use_condaenv}{Default Conda Environment's name given by reticulate; can be changed to specific conda environment}
+\item{use_condaenv}{The name of the Conda environment to use, as specified by reticulate. Can be changed to a specific Conda environment.}
 }
 \value{
-This function is used to check the dependency of PermSurvDNN, DeepSurv and other machine learning methods.
+This function checks the dependencies for SurvDNN, DeepSurv, DeepHit, and other related machine learning methods.
 }
 \description{
-Check PermSurvDNN's dependency, especially for DeepSurv and DeepHit
+Title Check SurvDNN's dependency, especially for DeepSurv and DeepHit
 }
 \examples{
 check_dependency()

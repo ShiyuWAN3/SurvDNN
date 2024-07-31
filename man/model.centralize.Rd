@@ -2,18 +2,18 @@
 % Please edit documentation in R/source_permfit_survival_20230610.r
 \name{model.centralize}
 \alias{model.centralize}
-\title{Title Centralizing the relative risk prediction of SurvDNN around 0}
+\title{Title Centralizing the Relative Risk Prediction of SurvDNN Around 0}
 \usage{
 model.centralize(mod, object)
 }
 \arguments{
-\item{mod}{A fitted dnnet or dnnetEnsemble object}
+\item{mod}{A fitted dnnet or dnnetEnsemble object.}
 
-\item{object}{The training set corresponds to the above model}
+\item{object}{The training set corresponding to the above model.}
 }
 \value{
-A centralized model with the last bias being updated, and the event time of the Training set
+A centralized model with the last bias updated, and the event times of the training set.
 }
 \description{
-Title Centralizing the relative risk prediction of SurvDNN around 0
+Title Centralizing the Relative Risk Prediction of SurvDNN Around 0
 }

@@ -2,18 +2,18 @@
 % Please edit documentation in R/source_permfit_survival_20230610.r
 \name{risk.set}
 \alias{risk.set}
-\title{Cox-PH log-likelihood calculation}
+\title{Title Cox-PH log-likelihood calculation}
 \usage{
 risk.set(t_threshold, times)
 }
 \arguments{
-\item{t_threshold}{Calculate the risk set at time t_throshold}
+\item{t_threshold}{The threshold time to calculate the risk set.}
 
-\item{times}{Patients' event times}
+\item{times}{Patients' event times.}
 }
 \value{
-Returns the IDs of patients whose event time is longer then t_threshold
+Returns the IDs of patients whose event times are longer than t_threshold.
 }
 \description{
-Cox-PH log-likelihood calculation
+Title Cox-PH log-likelihood calculation
 }

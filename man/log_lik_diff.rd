@@ -16,21 +16,21 @@ log_lik_diff(
 )
 }
 \arguments{
-\item{model.type}{Default = "survival" for survival data.}
+\item{model.type}{Default is "survival" for survival data.}
 
-\item{y_hat}{A numeric vector of patients' survival risk prediction.}
+\item{y_hat}{A numeric vector of patients' survival risk predictions.}
 
-\item{y_hat0}{A numeric vector of patients' survival risk prediction based on permuted data (Details explained in the manuscript).}
+\item{y_hat0}{A numeric vector of patients' survival risk predictions based on permuted data (details explained in the manuscript).}
 
-\item{object}{Validation dataset, a dnnetSurvInput object, created by deepTL::importDnnetSurv().}
+\item{object}{Validation dataset, a dnnetSurvInput object created by deepTL::importDnnetSurv().}
 
-\item{y_max}{Inner upper boundary for y in binary classification, can be ignored when model.type = "survival".}
+\item{y_max}{Inner upper boundary for y in binary classification; can be ignored when model.type is "survival".}
 
-\item{y_min}{Inner lower boundary for y in binary classification, can be ignored when model.type = "survival".}
+\item{y_min}{Inner lower boundary for y in binary classification; can be ignored when model.type is "survival".}
 
-\item{y_hatcoxl}{A numeric vector of patients' survival risk prediction returned by Cox-related models, e.g. Cox, SurvDNN, XGBoost.}
+\item{y_hatcoxl}{A numeric vector of patients' survival risk predictions returned by Cox-related models, e.g., Cox, SurvDNN, XGBoost.}
 
-\item{y_hat0coxl}{A numeric vector of patients' survival risk prediction returned by Cox-related models based on permuted data.}
+\item{y_hat0coxl}{A numeric vector of patients' survival risk predictions returned by Cox-related models based on permuted data.}
 }
 \value{
 A numeric vector consisting of differences in C-index, Cox's partial log-likelihood, and average time-dependent AUC, based on observed and permuted data.

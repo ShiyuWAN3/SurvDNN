@@ -2,20 +2,20 @@
 % Please edit documentation in R/source_permfit_survival_20230610.r
 \name{timedAUC}
 \alias{timedAUC}
-\title{Title Internal Method to Calculate Time-dependent AUC}
+\title{Title Internal Method to Calculate Time-Dependent AUC}
 \usage{
 timedAUC(Status, Times, f_hat_y)
 }
 \arguments{
-\item{Status}{A numeric vector of patients' survival status: 1 = event and 0 = censor}
+\item{Status}{A numeric vector of patients' survival status: 1 = event, 0 = censored.}
 
-\item{Times}{A numeric vector of patients' survival times}
+\item{Times}{A numeric vector of patients' survival times.}
 
-\item{f_hat_y}{A numeric vector of patients' survival risk prediction.}
+\item{f_hat_y}{A numeric vector of patients' survival risk predictions.}
 }
 \value{
-An average of time-dependent AUCs at 25\%, 50\% amd 75\% quantile of the event time.
+The average of time-dependent AUCs at the 25\%, 50\%, and 75\% quantiles of the event time.
 }
 \description{
-Title Internal Method to Calculate Time-dependent AUC
+Title Internal Method to Calculate Time-Dependent AUC
 }

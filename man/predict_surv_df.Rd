@@ -2,20 +2,20 @@
 % Please edit documentation in R/source_permfit_survival_20230610.r
 \name{predict_surv_df}
 \alias{predict_surv_df}
-\title{Title Internal Method to predict patient's survival based on relative risk prediction and Breslow's estimator of baseline cumulative hazard}
+\title{Title Internal Method to Predict Patient's Survival Based on Relative Risk Prediction and Breslow's Estimator of Baseline Cumulative Hazard}
 \usage{
 predict_surv_df(centralized_model, test_object, time_point = NULL)
 }
 \arguments{
-\item{centralized_model}{The output of function model.centralize().}
+\item{centralized_model}{The output of the function model.centralize().}
 
-\item{test_object}{Test dataset, a dnnetSurvInput object}
+\item{test_object}{Test dataset, a dnnetSurvInput object.}
 
-\item{time_point}{If specified, then it corresponds to the specific time points where you want to predict the patient's survival; otherwise, survival probability of each unique failure time in the training dataset willbe provided}
+\item{time_point}{If specified, it corresponds to the specific time points where you want to predict the patient's survival; otherwise, the survival probability at each unique failure time in the training dataset will be provided.}
 }
 \value{
 A data.frame with each patient's survival probability prediction.
 }
 \description{
-Title Internal Method to predict patient's survival based on relative risk prediction and Breslow's estimator of baseline cumulative hazard
+Title Internal Method to Predict Patient's Survival Based on Relative Risk Prediction and Breslow's Estimator of Baseline Cumulative Hazard
 }
