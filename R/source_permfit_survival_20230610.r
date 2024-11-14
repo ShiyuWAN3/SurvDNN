@@ -459,7 +459,7 @@ predict_surv_df = function(centralized_model,test_object,time_point = NULL){
     D_i = length(Death_at_T_i)
     Riskset_i = risk.set(t_threshold = T_i,times = train_object@y)
     #dH_0_Ti = D_i/sum(exp(train_risk_score)[Riskset_i])
-    dH_0_Ti = D_i/sum(exp(train_risk_score)[which(train_object@y > T_i)])
+    dH_0_Ti = D_i/sum(exp(train_risk_score)[which(train_object@y >= T_i)])
     dH0 = append(dH0,dH_0_Ti)
   }
   if (is.null(time_point)){
